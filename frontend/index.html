@@ -6,6 +6,7 @@
   <title>Aria Video Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     /* ===== COLORS ===== */
     :root {
@@ -595,6 +596,13 @@
 const API_BASE = window.location.hostname === 'localhost'
   ? 'http://localhost:8080'
   : 'https://ariavideostudio.up.railway.app';
+
+// Supabase Config
+const SUPABASE_URL = 'https://jxjealmhiiauaryuviok.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp4amVhbG1oaWlhdWFyeXV2aW9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2OTM1OTYsImV4cCI6MjEwNzI2OTU5Nn0.Fl4VEl8jwjdjUkfId5Go2vWEpVd3GGOEpgaZUWd5S8s';
+
+// Initialize Supabase client
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ===== STATE =====
 let state = {
