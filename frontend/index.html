@@ -601,8 +601,11 @@ const API_BASE = window.location.hostname === 'localhost'
 const SUPABASE_URL = 'https://jxjealmhiiauaryuviok.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp4amVhbG1oaWlhdWFyeXV2aW9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2OTM1OTYsImV4cCI6MjEwNzI2OTU5Nn0.Fl4VEl8jwjdjUkfId5Go2vWEpVd3GGOEpgaZUWd5S8s';
 
-// Initialize Supabase client
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Initialize Supabase client (safely)
+let supabase = null;
+if (window.supabase) {
+  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
 
 // ===== STATE =====
 let state = {
