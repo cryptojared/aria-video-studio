@@ -1,0 +1,21 @@
+{
+  "subscription_tiers": {
+    "starter": {
+      "price": 9.99,
+      "videos": 5,
+      "max_duration": 10
+    },
+    "pro": {
+      "price": 19.99,
+      "videos": "unlimited",
+      "max_duration": 30
+    },
+    "enterprise": {
+      "price": 49.99,
+      "videos": "unlimited",
+      "max_duration": 60
+    }
+  },
+  "aria_ugc_linked": true,
+  "default_taste": "cinematic"
+}

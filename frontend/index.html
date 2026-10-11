@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aria Video Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== COLORS ===== */
+    :root {
+      --white: #ffffff;
+      --sky-50: #f0f9ff;
+      --sky-100: #e0f2fe;
+      --sky-200: #bae6fd;
+      --sky-300: #7dd3fc;
+      --sky-400: #38bdf8;
+      --sky-500: #0ea5e9;
+      --sky-600: #0284c7;
+      --yellow-300: #fde68a;
+      --yellow-400: #facc15;
+      --yellow-500: #eab308;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    /* ===== RESET ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--gray-800);
+      font-size: 15px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--sky-600); text-decoration: none; }
+    a:hover { color: var(--sky-500); }
+
+    /* ===== LAYOUT ===== */
+    .app {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-100);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--gray-900);
+    }
+    .nav-brand .logo {
+      width: 32px;
+      height: 32px;
+      background: var(--sky-500);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-links button {
+      background: none;
+      border: none;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray-500);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .nav-links button:hover { background: var(--gray-50); color: var(--gray-700); }
+    .nav-links button.active {
+      background: var(--sky-50);
+      color: var(--sky-600);
+      font-weight: 600;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+    .btn-primary {
+      background: var(--sky-500);
+      color: white;
+    }
+    .btn-primary:hover { background: var(--sky-600); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .btn-secondary {
+      background: var(--white);
+      color: var(--gray-700);
+      border: 1px solid var(--gray-200);
+    }
+    .btn-secondary:hover { background: var(--gray-50); border-color: var(--gray-300); }
+    .btn-yellow {
+      background: var(--yellow-400);
+      color: var(--gray-900);
+    }
+    .btn-yellow:hover { background: var(--yellow-500); transform: translateY(-1px); }
+    .btn-ghost {
+      background: none;
+      color: var(--gray-500);
+      padding: 8px;
+    }
+    .btn-ghost:hover { background: var(--gray-50); color: var(--gray-700); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+    .btn-sm { padding: 6px 12px; font-size: 13px; }
+    .btn-lg { padding: 12px 24px; font-size: 16px; border-radius: var(--radius); }
+
+    /* Page content */
+    .page {
+      flex: 1;
+      padding: 32px 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ===== AUTH SCREENS ===== */
+    .auth-screen {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--gray-50);
+    }
+    .auth-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      padding: 40px;
+      width: 100%;
+      max-width: 420px;
+      border: 1px solid var(--gray-100);
+    }
+    .auth-logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .auth-logo .logo {
+      width: 56px;
+      height: 56px;
+      background: var(--sky-500);
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+    .auth-logo h1 { font-size: 22px; font-weight: 700; color: var(--gray-900); }
+    .auth-logo p { color: var(--gray-400); font-size: 14px; margin-top: 4px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-600);
+      margin-bottom: 6px;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-family: inherit;
+      background: var(--white);
+      color: var(--gray-800);
+      transition: border-color 0.15s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--sky-400);
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
+    }
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: var(--gray-400);
+      font-size: 13px;
+    }
+    .auth-divider::before, .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gray-200);
+    }
+    .auth-footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--gray-400);
+    }
+
+    /* ===== DASHBOARD ===== */
+    .dash-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      gap: 16px;
+    }
+    .dash-header h2 { font-size: 26px; font-weight: 700; color: var(--gray-900); }
+    .dash-header p { color: var(--gray-400); margin-top: 4px; font-size: 14px; }
+
+    /* Stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-card .stat-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-400); margin-bottom: 8px; }
+    .stat-card .stat-value { font-size: 28px; font-weight: 700; color: var(--gray-900); }
+    .stat-card .stat-sub { font-size: 12px; color: var(--gray-400); margin-top: 4px; }
+    .stat-card.sky { border-color: var(--sky-100); background: linear-gradient(135deg, var(--white) 0%, var(--sky-50) 100%); }
+    .stat-card.sky .stat-value { color: var(--sky-600); }
+    .stat-card.yellow { border-color: var(--yellow-300); background: linear-gradient(135deg, var(--white) 0%, #fffbeb 100%); }
+    .stat-card.yellow .stat-value { color: var(--yellow-500); }
+
+    /* Section titles */
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gray-800);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Project grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .project-card {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius);
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.15s;
+      box-shadow: var(--shadow-sm);
+    }
+    .project-card:hover { border-color: var(--sky-200); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .project-card .proj-name { font-size: 15px; font-weight: 700; color: var(--gray-900); margin-bottom: 6px; }
+    .project-card .proj-meta { font-size: 12px; color: var(--gray-400); }
+    .project-card .proj-clips { font-size: 12px; color: var(--gray-400); margin-top: 4px; }
+    .project-card .proj-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    .status-draft { background: var(--gray-100); color: var(--gray-500); }
+    .status-processing, .status-rendering, .status-uploading, .status-processing { background: var(--sky-100); color: var(--sky-600); }
+    .status-completed { background: #dcfce7; color: #16a34a; }
+    .status-error { background: #fee2e2; color: #dc2626; }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 64px 24px;
+      background: var(--gray-50);
+      border-radius: var(--radius);
+      border: 2px dashed var(--gray-200);
+    }
+    .empty-state .empty-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--sky-100);
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+    .empty-state h3 { font-size: 18px; font-weight: 700; color: var(--gray-700); margin-bottom: 8px; }
+    .empty-state p { color: var(--gray-400); font-size: 14px; margin-bottom: 20px; }
+
+    /* ===== MODALS ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-header h3 { font-size: 17px; font-weight: 700; color: var(--gray-900); }
+    .modal-body { padding: 24px; }
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--gray-100);
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    /* ===== PROJECT DETAIL ===== */
+    .project-detail { max-width: 900px; }
+    .proj-detail-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      gap: 16px;
+    }
+    .proj-detail-header h2 { font-size: 24px; font-weight: 700; color: var(--gray-900); }
+    .proj-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* Style presets */
+    .preset-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .preset-pill {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 2px solid var(--gray-200);
+      cursor: pointer;
+      transition: all 0.15s;
+      background: var(--white);
+      color: var(--gray-600);
+    }
+    .preset-pill:hover { border-color: var(--sky-300); color: var(--sky-600); }
+    .preset-pill.active { border-color: var(--sky-500); background: var(--sky-50); color: var(--sky-600); }
+
+    /* Clips section */
+    .clips-section {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .clips-section h3 { font-size: 15px; font-weight: 700; color: var(--gray-800); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .clips-upload-zone {
+      border: 2px dashed var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: var(--gray-50);
+    }
+    .clips-upload-zone:hover { border-color: var(--sky-400); background: var(--sky-50); }
+    .clips-upload-zone .upload-icon { font-size: 32px; margin-bottom: 8px; }
+    .clips-upload-zone p { font-size: 14px; color: var(--gray-400); }
+    .clips-upload-zone .upload-hint { font-size: 12px; color: var(--gray-300); margin-top: 4px; }
+    .clips-list { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+    .clip-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-100);
+    }
+    .clip-item .clip-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--sky-100);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .clip-item .clip-info { flex: 1; min-width: 0; }
+    .clip-item .clip-name { font-size: 13px; font-weight: 600; color: var(--gray-700); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .clip-item .clip-meta { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+    .clip-type-badge {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .badge-th { background: var(--sky-100); color: var(--sky-600); }
+    .badge-broll { background: var(--yellow-300); color: var(--gray-700); }
+
+    /* Render section */
+    .render-section {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+    }
+    .render-section h3 { font-size: 15px; font-weight: 700; color: var(--gray-800); margin-bottom: 6px; }
+    .render-section p { font-size: 13px; color: var(--gray-400); margin-bottom: 20px; }
+
+    /* Progress bar */
+    .progress-wrap { margin: 20px 0; }
+    .progress-bar-bg { height: 8px; background: var(--gray-100); border-radius: 10px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: var(--sky-500); border-radius: 10px; transition: width 0.3s; }
+    .progress-label { font-size: 12px; color: var(--gray-400); margin-top: 6px; text-align: right; }
+
+    /* Output section */
+    .output-videos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+    .output-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      text-align: center;
+    }
+    .output-card .output-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--gray-200);
+      border-radius: var(--radius-sm);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: var(--gray-400);
+      overflow: hidden;
+    }
+    .output-card .output-thumb video, .output-card .output-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .output-card .output-label { font-size: 12px; font-weight: 700; color: var(--gray-700); }
+    .output-card .output-size { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toast {
+      background: var(--gray-800);
+      color: white;
+      padding: 12px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: slideIn 0.2s ease;
+    }
+    .toast.success { background: #16a34a; }
+    .toast.error { background: #dc2626; }
+    .toast.sky { background: var(--sky-600); }
+    @keyframes slideIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+    /* Loading spinner */
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: inline-block;
+    }
+    .spinner.dark {
+      border-color: rgba(0,0,0,0.15);
+      border-top-color: var(--gray-600);
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .output-videos { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 480px) {
+      .stats-row { grid-template-columns: 1fr; }
+    }
+
+    /* Hidden utility */
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+<div class="app" id="app">
+  <!-- Toast container -->
+  <div class="toast-container" id="toasts"></div>
+</div>
+
+<script>
+// ===== CONFIGURATION =====
+const API_BASE = window.location.hostname === 'localhost'
+  ? 'http://localhost:8080'
+  : 'https://ariavideostudio.up.railway.app';
+
+// ===== STATE =====
+let state = {
+  screen: 'loading', // loading | auth | dashboard | project
+  user: null,
+  token: null,
+  projects: [],
+  currentProject: null,
+  clips: [],
+  renderJobs: [],
+  modal: null,
+};
+
+// ===== HELPERS =====
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
+const api = (path, opts = {}) => {
+  const headers = { 'Content-Type': 'application/json' };
+  if (state.token) headers['Authorization'] = `Bearer ${state.token}`;
+  return fetch(`${API_BASE}${path}`, { ...opts, headers: { ...headers, ...opts.headers } })
+    .then(r => r.json().catch(() => ({ error: 'Invalid response' })))
+    .then(d => { if (d.detail) throw new Error(d.detail); return d; });
+};
+
+function toast(msg, type = 'default') {
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.textContent = msg;
+  $('#toasts').appendChild(el);
+  setTimeout(() => el.remove(), 3500);
+}
+
+function formatDuration(secs) {
+  if (!secs) return '—';
+  const m = Math.floor(secs / 60);
+  const s = Math.floor(secs % 60);
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+function timeAgo(iso) {
+  const diff = Date.now() - new Date(iso).getTime();
+  const m = Math.floor(diff / 60000);
+  if (m < 1) return 'just now';
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ago`;
+  const d = Math.floor(h / 24);
+  return `${d}d ago`;
+}
+
+// ===== RENDER =====
+function render() {
+  const root = $('#app');
+  // Keep toasts
+  const toasts = $('#toasts');
+  root.innerHTML = '';
+  root.appendChild(toasts);
+
+  switch (state.screen) {
+    case 'loading': renderLoading(root); break;
+    case 'auth': renderAuth(root); break;
+    case 'dashboard': renderDashboard(root); break;
+    case 'project': renderProject(root); break;
+  }
+}
+
+function renderLoading(root) {
+  root.innerHTML = `
+    <div style="flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;">
+      <div style="width:48px;height:48px;background:var(--sky-500);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;">🎬</div>
+      <div class="spinner dark"></div>
+    </div>`;
+  root.appendChild($('#toasts'));
+}
+
+function renderAuth(root) {
+  root.innerHTML = `
+    <div class="auth-screen">
+      <div class="auth-card">
+        <div class="auth-logo">
+          <div class="logo">🎬</div>
+          <h1>Aria Video Studio</h1>
+          <p>Edit videos by just talking to it ✨</p>
+        </div>
+        <div id="auth-form"></div>
+      </div>
+    </div>`;
+  root.appendChild($('#toasts'));
+  renderAuthForm($('#auth-form'));
+}
+
+function renderAuthForm(container) {
+  container.innerHTML = `
+    <form id="login-form" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="you@example.com" required />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="••••••••" required />
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">
+        Sign In
+      </button>
+    </form>
+    <div class="auth-divider">or</div>
+    <button class="btn btn-secondary btn-lg" style="width:100%;" onclick="handleSignup()">
+      Create Account
+    </button>
+    <div class="auth-footer">
+      <a href="#" onclick="showSignup(event)">New here? Create an account →</a>
+    </div>`;
+}
+
+function renderDashboard(root) {
+  root.innerHTML = `
+    <div class="navbar">
+      <div class="nav-brand">
+        <div class="logo">🎬</div>
+        Aria Video Studio
+      </div>
+      <div class="nav-links">
+        <button class="active">Projects</button>
+        <button onclick="navigate('pricing')">Pricing</button>
+      </div>
+      <div class="nav-right">
+        <span style="font-size:13px;color:var(--gray-400);">${state.user?.email || ''}</span>
+        <button class="btn btn-ghost" onclick="handleLogout()">Sign out</button>
+      </div>
+    </div>
+    <div class="page">
+      <div class="dash-header">
+        <div>
+          <h2>Your Projects</h2>
+          <p>Upload your clips, describe your style, and Aria edits it for you ✨</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('new-project')">
+          + New Project
+        </button>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Total Projects</div>
+          <div class="stat-value">${state.projects.length}</div>
+          <div class="stat-sub">all time</div>
+        </div>
+        <div class="stat-card sky">
+          <div class="stat-label">Videos Rendered</div>
+          <div class="stat-value">${state.projects.filter(p => p.status === 'completed').length}</div>
+          <div class="stat-sub">completed</div>
+        </div>
+        <div class="stat-card yellow">
+          <div class="stat-label">This Month</div>
+          <div class="stat-value">—</div>
+          <div class="stat-sub">videos edited</div>
+        </div>
+      </div>
+      <div class="section-title">Recent Projects</div>
+      <div id="projects-list"></div>
+    </div>`;
+  root.appendChild($('#toasts'));
+  renderProjectsList($('#projects-list'));
+  renderModal(root);
+}
+
+function renderProjectsList(container) {
+  if (state.projects.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🎬</div>
+        <h3>No projects yet</h3>
+        <p>Upload your first talking head video and let Aria do the editing magic ✨</p>
+        <button class="btn btn-primary" onclick="openModal('new-project')">Create Your First Project</button>
+      </div>`;
+    return;
+  }
+  container.innerHTML = `<div class="projects-grid" id="projects-grid"></div>`;
+  const grid = $('#projects-grid');
+  grid.innerHTML = state.projects.map(p => `
+    <div class="project-card" onclick="openProject('${p.id}')">
+      <div class="proj-name">${escHtml(p.name)}</div>
+      <div class="proj-meta">${p.style_preset || 'cinematic'} · ${timeAgo(p.updated_at)}</div>
+      <div class="proj-clips">${p.clip_count || 0} clip${p.clip_count !== 1 ? 's' : ''}</div>
+      <div class="proj-status status-${p.status}">${statusIcon(p.status)} ${p.status}</div>
+    </div>`).join('');
+}
+
+function renderProject(root) {
+  const p = state.currentProject;
+  const isRendering = ['rendering', 'processing', 'queued'].includes(p?.status);
+  root.innerHTML = `
+    <div class="navbar">
+      <div class="nav-brand">
+        <div class="logo">🎬</div>
+        Aria Video Studio
+      </div>
+      <div class="nav-links">
+        <button onclick="navigate('dashboard')">← Back to Projects</button>
+      </div>
+      <div class="nav-right">
+        <button class="btn btn-secondary btn-sm" onclick="navigate('dashboard')">Dashboard</button>
+      </div>
+    </div>
+    <div class="page project-detail">
+      <div class="proj-detail-header">
+        <div>
+          <button class="btn btn-ghost btn-sm" onclick="navigate('dashboard')" style="margin-bottom:8px;">← Projects</button>
+          <h2>${escHtml(p?.name || 'Project')}</h2>
+          <p style="color:var(--gray-400);font-size:13px;margin-top:4px;">${p?.description || 'No description'}</p>
+        </div>
+        <div class="proj-actions">
+          ${p?.status === 'completed' ? `
+            <button class="btn btn-yellow btn-sm" onclick="renderProject()">🔄 Re-render</button>
+          ` : ''}
+          <button class="btn btn-secondary btn-sm" onclick="openModal('edit-project')">Edit</button>
+          <button class="btn btn-ghost btn-sm" style="color:var(--gray-400);" onclick="deleteProject('${p.id}')">Delete</button>
+        </div>
+      </div>
+
+      <!-- Style Presets -->
+      <div style="margin-bottom:24px;">
+        <div class="section-title">Style</div>
+        <div class="preset-pills">
+          ${['cinematic','warm','corporate','custom'].map(s => `
+            <button class="preset-pill ${p?.style_preset === s ? 'active' : ''}" onclick="updateStyle('${s}')">${s.charAt(0).toUpperCase() + s.slice(1)}</button>`).join('')}
+        </div>
+      </div>
+
+      <!-- Talking Head Clips -->
+      <div class="clips-section">
+        <h3>🎙️ Talking Head Clips</h3>
+        <div id="th-clips-list" class="clips-list"></div>
+        <div class="clips-upload-zone" onclick="document.getElementById('th-upload').click()" style="margin-top:12px;">
+          <div class="upload-icon">📤</div>
+          <p>Drop your talking head video here</p>
+          <p class="upload-hint">MP4, MOV — or click to browse</p>
+        </div>
+        <input type="file" id="th-upload" accept="video/*" style="display:none" onchange="uploadClip(this.files[0], 'talking_head')" />
+      </div>
+
+      <!-- B-Roll Clips -->
+      <div class="clips-section">
+        <h3>🎞️ B-Roll Clips <span style="font-weight:400;color:var(--gray-400);font-size:12px">(optional)</span></h3>
+        <div id="broll-clips-list" class="clips-list"></div>
+        <div class="clips-upload-zone" onclick="document.getElementById('broll-upload').click()" style="margin-top:12px;">
+          <div class="upload-icon">🌄</div>
+          <p>Add B-roll footage for Aria to auto-place</p>
+          <p class="upload-hint">MP4, MOV — product shots, b-roll, bokeh</p>
+        </div>
+        <input type="file" id="broll-upload" accept="video/*" style="display:none" onchange="uploadClip(this.files[0], 'broll')" />
+      </div>
+
+      <!-- Render -->
+      <div class="render-section">
+        <h3>🎬 Ready to Edit?</h3>
+        <p>Drop your clips above, then hit the button and Aria will edit it automatically ✨</p>
+        <button class="btn btn-primary btn-lg" onclick="startRender()" ${isRendering ? 'disabled' : ''}>
+          ${isRendering ? '⏳ Rendering...' : '🚀 Edit This Project'}
+        </button>
+        ${isRendering ? `<div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" id="render-progress" style="width:${renderProgress(p)}"></div></div><div class="progress-label" id="render-status-label">${p.status}</div></div>` : ''}
+      </div>
+
+      <!-- Output -->
+      ${p?.status === 'completed' ? `
+      <div class="clips-section" style="margin-top:24px;">
+        <h3>✨ Your Edited Videos</h3>
+        <div class="output-videos">
+          <div class="output-card">
+            <div class="output-thumb">
+              ${p.rendered_video_url ? `<video src="${p.rendered_video_url}" muted onclick="this.paused ? this.play() : this.pause()"></video>` : '🎬'}
+            </div>
+            <div class="output-label">Full Edit</div>
+            <div class="output-size">16:9 · HD</div>
+            <button class="btn btn-primary btn-sm" style="margin-top:8px;" onclick="downloadVideo('${p.rendered_video_url || ''}')">Download</button>
+          </div>
+          ${(p.shorts || []).map((s, i) => `
+          <div class="output-card">
+            <div class="output-thumb">
+              <video src="${s}" muted onclick="this.paused ? this.play() : this.pause()"></video>
+            </div>
+            <div class="output-label">Short ${i + 1}</div>
+            <div class="output-size">9:16 · Vertical</div>
+          </div>`).join('')}
+        </div>
+      </div>` : ''}
+    </div>`;
+  root.appendChild($('#toasts'));
+  renderModal(root);
+  renderClipsList();
+}
+
+function renderClipsList() {
+  const thList = $('#th-clips-list');
+  const brollList = $('#broll-clips-list');
+  const thClips = state.clips.filter(c => c.type === 'talking_head');
+  const brollClips = state.clips.filter(c => c.type === 'broll');
+
+  thList.innerHTML = thClips.length ? thClips.map(c => clipItemHtml(c)).join('') : '<p style="font-size:13px;color:var(--gray-400);padding:8px 0;">No talking head clips yet</p>';
+  brollList.innerHTML = brollClips.length ? brollClips.map(c => clipItemHtml(c)).join('') : '<p style="font-size:13px;color:var(--gray-400);padding:8px 0;">No B-roll yet</p>';
+}
+
+function clipItemHtml(c) {
+  return `<div class="clip-item">
+    <div class="clip-icon">${c.type === 'talking_head' ? '🎙️' : '🎞️'}</div>
+    <div class="clip-info">
+      <div class="clip-name">${escHtml(c.file_name)}</div>
+      <div class="clip-meta">${formatDuration(c.duration)}</div>
+    </div>
+    <span class="clip-type-badge badge-${c.type === 'talking_head' ? 'th' : 'broll'}">${c.type === 'talking_head' ? 'TH' : 'BR'}</span>
+    <button class="btn btn-ghost btn-sm" onclick="deleteClip('${c.id}')">✕</button>
+  </div>`;
+}
+
+function renderModal(root) {
+  // Modals injected at end of body — rendered here if needed
+  if (!state.modal) return;
+  let html = `<div class="modal-overlay" onclick="if(event.target===this)closeModal()"><div class="modal">`;
+
+  if (state.modal === 'new-project') {
+    html += `
+      <div class="modal-header">
+        <h3>Create New Project</h3>
+        <button class="btn btn-ghost btn-sm" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="new-project-form" onsubmit="createProject(event)">
+          <div class="form-group">
+            <label>Project Name</label>
+            <input type="text" name="name" placeholder="Q3 Product Launch" required />
+          </div>
+          <div class="form-group">
+            <label>Description <span style="font-weight:400;color:var(--gray-400)">(optional)</span></label>
+            <textarea name="description" rows="2" placeholder="Brief description of the video..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Style Preset</label>
+            <select name="style_preset">
+              <option value="cinematic">Cinematic — Film look, orange-teal</option>
+              <option value="warm">Warm VLOG — Golden hour, friendly</option>
+              <option value="corporate">Corporate — Clean, professional</option>
+              <option value="custom">Custom — You control the look</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Aspect Ratio</label>
+            <select name="aspect_ratio">
+              <option value="16:9">16:9 — YouTube / Landscape</option>
+              <option value="9:16">9:16 — TikTok / Reels / Shorts</option>
+              <option value="1:1">1:1 — Square / Instagram</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="document.getElementById('new-project-form').requestSubmit()">Create Project</button>
+      </div>`;
+  }
+
+  html += `</div></div>`;
+  const overlay = document.createElement('div');
+  overlay.id = 'modal-root';
+  overlay.innerHTML = html;
+  root.appendChild(overlay);
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function statusIcon(status) {
+  const map = {
+    draft: '📝', processing: '⚙️', uploading: '📤',
+    rendering: '🎬', completed: '✅', error: '❌'
+  };
+  return map[status] || '•';
+}
+
+function renderProgress(project) {
+  const map = { queued: '10%', processing: '40%', rendering: '70%', completed: '100%', error: '0%' };
+  return map[project?.status] || '0%';
+}
+
+// ===== NAVIGATION =====
+function navigate(screen, data) {
+  state.screen = screen;
+  if (screen === 'project' && data) {
+    state.currentProject = data;
+    loadClips(data.id);
+  }
+  render();
+}
+
+// ===== AUTH =====
+function showSignup(e) {
+  e && e.preventDefault();
+  const form = $('#auth-form');
+  form.innerHTML = `
+    <form id="signup-form" onsubmit="handleSignupSubmit(event)">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="name" placeholder="Your name" required />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="you@example.com" required />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Choose a password (min 6 chars)" required minlength="6" />
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">
+        Create Account
+      </button>
+    </form>
+    <div class="auth-divider">or</div>
+    <button class="btn btn-secondary btn-lg" style="width:100%;" onclick="handleLogin()">
+      Sign In Instead
+    </button>
+    <div class="auth-footer">
+      <a href="#" onclick="renderAuthForm($('auth-form'));return false">Already have an account? Sign in →</a>
+    </div>`;
+}
+
+async function handleSignup() {
+  const el = document.createElement('div');
+  el.innerHTML = `
+    <form id="signup-form" onsubmit="handleSignupSubmit(event)">
+      <div class="form-group"><label>Name</label><input type="text" name="name" placeholder="Your name" required /></div>
+      <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="you@example.com" required /></div>
+      <div class="form-group"><label>Password</label><input type="password" name="password" placeholder="Choose a password" required minlength="6" /></div>
+      <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">Create Account</button>
+    </form>
+    <div class="auth-divider">or</div>
+    <button class="btn btn-secondary btn-lg" style="width:100%;" onclick="renderAuthForm($('auth-form'))">Sign In Instead</button>`;
+  $('#auth-form').innerHTML = '';
+  $('#auth-form').appendChild(el);
+}
+
+async function handleSignupSubmit(e) {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const btn = e.submitter;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+  try {
+    const res = await api('/api/auth/register/', {
+      method: 'POST',
+      body: JSON.stringify({ name: fd.get('name'), email: fd.get('email'), password: fd.get('password') }),
+    });
+    if (res.access_token) {
+      state.token = res.access_token;
+      state.user = res.user || { email: fd.get('email'), name: fd.get('name') };
+      localStorage.setItem('aria_token', state.token);
+      localStorage.setItem('aria_user', JSON.stringify(state.user));
+      await loadDashboard();
+    } else {
+      toast(res.error || 'Signup failed', 'error');
+    }
+  } catch(err) {
+    toast(err.message, 'error');
+  }
+  btn.disabled = false;
+  btn.textContent = 'Create Account';
+}
+
+async function handleLogin(e) {
+  if (e) e.preventDefault();
+  const form = e ? e.target : $('#login-form');
+  const fd = new FormData(form);
+  const btn = form.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Creating...';
+  try {
+    const res = await api('/api/auth/login/', {
+      method: 'POST',
+      body: JSON.stringify({ email: fd.get('email'), password: fd.get('password') }),
+    });
+    if (res.access_token) {
+      state.token = res.access_token;
+      state.user = res.user || { email: fd.get('email') };
+      localStorage.setItem('aria_token', state.token);
+      localStorage.setItem('aria_user', JSON.stringify(state.user));
+      await loadDashboard();
+    } else {
+      toast(res.error || 'Invalid credentials', 'error');
+    }
+  } catch(err) {
+    toast(err.message, 'error');
+  }
+  btn.disabled = false;
+  btn.textContent = 'Sign In';
+}
+
+function handleLogout() {
+  state.token = null;
+  state.user = null;
+  state.projects = [];
+  state.screen = 'auth';
+  localStorage.removeItem('aria_token');
+  localStorage.removeItem('aria_user');
+  render();
+}
+
+// ===== DASHBOARD =====
+async function loadDashboard() {
+  try {
+    const projects = await api('/api/projects/');
+    state.projects = Array.isArray(projects) ? projects : [];
+  } catch {
+    state.projects = [];
+  }
+  state.screen = 'dashboard';
+  render();
+}
+
+// ===== PROJECTS =====
+function openModal(type) {
+  state.modal = type;
+  render();
+}
+function closeModal() {
+  state.modal = null;
+  const el = $('#modal-root');
+  if (el) el.remove();
+}
+
+async function createProject(e) {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const btn = e.submitter || e.target.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+  try {
+    const res = await api('/api/projects/', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: fd.get('name'),
+        description: fd.get('description'),
+        style_preset: fd.get('style_preset'),
+        aspect_ratio: fd.get('aspect_ratio'),
+      }),
+    });
+    closeModal();
+    toast('Project created! 🎉', 'success');
+    await loadDashboard();
+    // Open the new project
+    const created = state.projects.find(p => p.id === res.id) || res;
+    state.projects.unshift(created);
+    navigate('project', created);
+  } catch(err) {
+    toast(err.message || 'Failed to create project', 'error');
+  }
+  btn.disabled = false;
+  btn.textContent = 'Create Project';
+}
+
+async function openProject(id) {
+  try {
+    const p = await api(`/api/projects/${id}/`);
+    state.currentProject = p;
+    await loadClips(id);
+    state.screen = 'project';
+    render();
+  } catch(err) {
+    toast(err.message, 'error');
+  }
+}
+
+async function updateStyle(preset) {
+  const p = state.currentProject;
+  if (!p) return;
+  try {
+    await api(`/api/projects/${p.id}/`, {
+      method: 'PUT',
+      body: JSON.stringify({ style_preset: preset }),
+    });
+    state.currentProject.style_preset = preset;
+    // Update in projects list too
+    const idx = state.projects.findIndex(x => x.id === p.id);
+    if (idx >= 0) state.projects[idx].style_preset = preset;
+    render();
+    toast(`Style set to ${preset} ✨`, 'success');
+  } catch(err) {
+    toast(err.message, 'error');
+  }
+}
+
+async function deleteProject(id) {
+  if (!confirm('Delete this project and all its clips? This cannot be undone.')) return;
+  try {
+    await api(`/api/projects/${id}/`, { method: 'DELETE' });
+    state.projects = state.projects.filter(p => p.id !== id);
+    toast('Project deleted', 'success');
+    navigate('dashboard');
+  } catch(err) {
+    toast(err.message, 'error');
+  }
+}
+
+// ===== CLIPS =====
+async function loadClips(projectId) {
+  try {
+    state.clips = await api(`/api/projects/${projectId}/clips`);
+    if (!Array.isArray(state.clips)) state.clips = [];
+  } catch {
+    state.clips = [];
+  }
+}
+
+async function uploadClip(file, type) {
+  if (!file || !state.currentProject) return;
+  const p = state.currentProject;
+  const btn = type === 'talking_head' ? $('#th-upload') : $('#broll-upload');
+  toast(`Uploading ${file.name}...`, 'sky');
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+    const res = await fetch(`${API_BASE}/api/projects/${p.id}/clips?clip_type=${type}`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${state.token}` },
+      body: formData,
+    }).then(r => r.json());
+    if (res.id) {
+      state.clips.push(res);
+      toast(`${file.name} uploaded! ✅`, 'success');
+      render();
+    } else {
+      toast(res.detail || 'Upload failed', 'error');
+    }
+  } catch(err) {
+    toast(err.message || 'Upload failed', 'error');
+  }
+}
+
+async function deleteClip(id) {
+  try {
+    await api(`/api/clips/${id}/`, { method: 'DELETE' });
+    state.clips = state.clips.filter(c => c.id !== id);
+    toast('Clip removed', 'success');
+    render();
+  } catch(err) {
+    toast(err.message, 'error');
+  }
+}
+
+// ===== RENDER =====
+async function startRender() {
+  const p = state.currentProject;
+  if (!p) return;
+  if (!state.clips.length) {
+    toast('Please upload at least one talking head clip first!', 'error');
+    return;
+  }
+  toast('Rendering started! This will take a few minutes... 🎬', 'sky');
+  try {
+    const res = await api(`/api/render/start?project_id=${p.id}/`, { method: 'POST' });
+    state.currentProject.status = 'rendering';
+    // Poll for completion
+    pollRenderStatus(p.id);
+  } catch(err) {
+    toast(err.message || 'Render failed', 'error');
+  }
+}
+
+let pollInterval = null;
+async function pollRenderStatus(projectId) {
+  if (pollInterval) clearInterval(pollInterval);
+  pollInterval = setInterval(async () => {
+    try {
+      const p = await api(`/api/projects/${projectId}`);
+      state.currentProject = p;
+      render();
+      if (!['processing','rendering','queued'].includes(p.status)) {
+        clearInterval(pollInterval);
+        pollInterval = null;
+        if (p.status === 'completed') {
+          toast('Your video is ready! 🎉', 'success');
+        } else {
+          toast('Render failed: ' + (p.error_message || 'unknown error'), 'error');
+        }
+      }
+    } catch {}
+  }, 5000);
+}
+
+function downloadVideo(url) {
+  if (!url) return;
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '';
+  a.click();
+}
+
+// ===== INIT =====
+async function init() {
+  state.screen = 'loading';
+  render();
+
+  const savedToken = localStorage.getItem('aria_token');
+  const savedUser = localStorage.getItem('aria_user');
+  if (savedToken && savedUser) {
+    state.token = savedToken;
+    state.user = JSON.parse(savedUser);
+    await loadDashboard();
+  } else {
+    state.screen = 'auth';
+    render();
+  }
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+{
+  "bc48ea70-3e75-49ce-88f8-a7fbf8058e80": {
+    "id": "bc48ea70-3e75-49ce-88f8-a7fbf8058e80",
+    "email": "test@aria.dev",
+    "name": "Test User",
+    "password_hash": "937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244",
+    "subscription_tier": "free",
+    "subscription_id": null,
+    "subscription_status": "inactive",
+    "aria_ugc_member": false,
+    "aria_ugc_user_id": null,
+    "created_at": "2026-10-08T22:28:40.364766",
+    "updated_at": "2026-10-08T22:28:40.364766"
+  },
+  "64ff1fd9-e0a4-4b5e-a253-fa47be00aa9a": {
+    "id": "64ff1fd9-e0a4-4b5e-a253-fa47be00aa9a",
+    "email": "jared@aria.dev",
+    "name": "Jared",
+    "password_hash": "937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244",
+    "subscription_tier": "free",
+    "subscription_id": null,
+    "subscription_status": "inactive",
+    "aria_ugc_member": false,
+    "aria_ugc_user_id": null,
+    "created_at": "2026-10-08T22:29:07.909221",
+    "updated_at": "2026-10-08T22:29:07.909221"
+  },
+  "b32bb44f-3807-4afa-8d7b-1a3934db09f9": {
+    "id": "b32bb44f-3807-4afa-8d7b-1a3934db09f9",
+    "email": "jared2@aria.dev",
+    "name": "Jared",
+    "password_hash": "937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244",
+    "subscription_tier": "free",
+    "subscription_id": null,
+    "subscription_status": "inactive",
+    "aria_ugc_member": false,
+    "aria_ugc_user_id": null,
+    "created_at": "2026-10-08T22:29:28.664553",
+    "updated_at": "2026-10-08T22:29:28.664553"
+  },
+  "eed7b37b-134d-4a6a-aaad-ce110ff47068": {
+    "id": "eed7b37b-134d-4a6a-aaad-ce110ff47068",
+    "email": "jared3@aria.dev",
+    "name": "Jared",
+    "password_hash": "937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244",
+    "subscription_tier": "free",
+    "subscription_id": null,
+    "subscription_status": "inactive",
+    "aria_ugc_member": false,
+    "aria_ugc_user_id": null,
+    "created_at": "2026-10-08T22:29:58.897770",
+    "updated_at": "2026-10-08T22:29:58.897770"
+  },
+  "1e5e549a-f38a-4913-8a21-11dfa0a1ee4d": {
+    "id": "1e5e549a-f38a-4913-8a21-11dfa0a1ee4d",
+    "email": "jared4@aria.dev",
+    "name": "Jared",
+    "password_hash": "937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244",
+    "subscription_tier": "free",
+    "subscription_id": null,
+    "subscription_status": "inactive",
+    "aria_ugc_member": false,
+    "aria_ugc_user_id": null,
+    "created_at": "2026-10-08T22:30:44.277954",
+    "updated_at": "2026-10-08T22:30:44.277954"
+  },
+  "7795961e-7088-4d70-9fb3-c0f4196fb86d": {
+    "id": "7795961e-7088-4d70-9fb3-c0f4196fb86d",
+    "email": "jared6@aria.dev",
+    "name": "Jared",
+    "password_hash": "937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244",
+    "subscription_tier": "free",
+    "subscription_id": null,
+    "subscription_status": "inactive",
+    "aria_ugc_member": false,
+    "aria_ugc_user_id": null,
+    "created_at": "2026-10-08T22:32:16.529241",
+    "updated_at": "2026-10-08T22:32:16.529241"
+  }
+}

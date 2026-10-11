@@ -1,0 +1,19 @@
+{
+  "09c66cd9-fc35-4f8f-8fac-3008890a3088": {
+    "id": "09c66cd9-fc35-4f8f-8fac-3008890a3088",
+    "user_id": "7795961e-7088-4d70-9fb3-c0f4196fb86d",
+    "name": "Test Video",
+    "description": null,
+    "status": "draft",
+    "style_preset": "warm",
+    "custom_lut": null,
+    "instructions": null,
+    "aspect_ratio": "16:9",
+    "rendered_video_url": null,
+    "shorts": [],
+    "duration_seconds": null,
+    "clip_count": 0,
+    "created_at": "2026-10-08T22:32:16.539016",
+    "updated_at": "2026-10-08T22:32:16.539016"
+  }
+}
